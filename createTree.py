@@ -5,7 +5,6 @@ class Node:
     """The Node class is needed to create the tree"""
     def __init__(self):
         self.value = None
-        self.next = None
         self.children = []
 
 
