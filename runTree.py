@@ -2,7 +2,7 @@ from createTree import DecisionTree
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('clean.csv')
+df = pd.read_csv('noisy.csv')
 features = ['Outlook', 'Temperature', 'Humidity', 'Wind']
 
 x = df[features]

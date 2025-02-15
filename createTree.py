@@ -137,38 +137,41 @@ class DecisionTree:
         if not node:
             node = Node()
         
-        if len(set(self.target[i] for i in values)) == 1: # if all values are the same
-            node.value = self.target[values[0]]
+        # Leaf node cases
+        if len(set(self.target[i] for i in values)) == 1:
+            node.value = self.target[values[0]]  # Class prediction
             return node
 
-        if not features: # if there are no more features to split on
-            node.value = self.target[values[0]] # set the value to the most common target value
+        if not features:
+            node.value = self.target[values[0]]  # Class prediction
             return node
         
-        best_feature = self._best_feature(values, features) # find the best feature to split on
-        node.value = best_feature # set the value to the best feature
-
-        unique_values = list(set(self.x[best_feature])) # get the unique values of the best feature, for Outlook we have ['Sunny', 'Overcast', 'Rain']
+        # Decision node
+        best_feature = self._best_feature(values, features)
+        node.value = best_feature  # Feature name
+        
+        unique_values = list(set(self.x[best_feature]))
+        new_features = [f for f in features if f != best_feature]
         
         for value in unique_values:
-            # Get indices where feature has this value
             child = Node()
-            child.value = value
-            node.children.append(child)
-
-            value_indices = [i for i in values if self.x.loc[i, best_feature] == value] # A list of indices where the feature value (For example, Outlook) is the same as the value (For example, Sunny), eg [0, 3, 4, 7...]
-
-            if value_indices:
-                if features and best_feature in features:
-                    new_features = [f for f in features if f != best_feature] # remove the best feature from the list of features
-
-                child.next = self._build_tree(value_indices, new_features, child) # recursively build the tree for this subset
+            child.value = value  # Feature value
             
+            # Get subset of data for this feature value
+            value_indices = [i for i in values if self.x.loc[i, best_feature] == value]
+            
+            if value_indices:
+                # Create child node for prediction
+                prediction_node = self._build_tree(value_indices, new_features, Node())
+                child.children.append(prediction_node)
             else:
-                child.next = Node()
-                child.next.value = self.target[values[0]] # set the value to the most common target value
-                print('Done')
-
+                # If no examples, create leaf with majority class
+                prediction_node = Node()
+                prediction_node.value = self.target[values[0]]
+                child.children.append(prediction_node)
+                
+            node.children.append(child)
+        
         return node
 
     def fit(self):
@@ -176,18 +179,16 @@ class DecisionTree:
         print('Done')
     
 
-    def print_tree(self):
-        if not self.node:
-            return
+    def print_tree(self, node=None, indent=""):
+        if node is None:
+            node = self.node
+            
+        # Print current node
+        print(indent + str(node.value))
         
-        queue = collections.deque([self.node])
-        while queue:
-            node = queue.popleft()
-            print(node.value)
-            if node.children:
-                for child in node.children:
-                    print('->', child.value)
-                    queue.append(child.next)
-
-            elif node.next:
-                print('->', node.next.value)
+        # Print all children
+        for child in node.children:
+            print(indent + "├── " + str(child.value))
+            # Print child's children with increased indent
+            for grandchild in child.children:
+                self.print_tree(grandchild, indent + "│   ")
