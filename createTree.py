@@ -67,7 +67,7 @@ class DecisionTree:
         """
         total_entropy = self._entropy(values)
 
-        feature_values = [self.x[i][feature] for i in values] # get the feature values (For example, Outlook) = ['Sunny', 'Overcast', 'Rain', 'Sunny', ... etc]
+        feature_values = self.x.loc[values, feature].values # get the feature values (For example, Outlook) = ['Sunny', 'Overcast', 'Rain', 'Sunny', ... etc]
 
         unique_values = list(set(feature_values)) # get the unique values ['Sunny', 'Overcast', 'Rain']
 
@@ -75,7 +75,7 @@ class DecisionTree:
 
         for value in unique_values:
             # Get indices where feature has this value
-            value_indices = [values[i] for i in range(len(feature_values)) if feature_values[i] == value] # A list of indices where the feature value is the same as the value, eg [0, 3, 4, 7...]
+            value_indices = [values[i] for i in range(len(values)) if self.x.loc[values[i], feature] == value] # A list of indices where the feature value is the same as the value, eg [0, 3, 4, 7...]
             
             # Calculate entropy for this subset
             value_entropy = self._entropy(value_indices) # eg. Entropy for Sunny
@@ -141,14 +141,14 @@ class DecisionTree:
             node.value = self.target[values[0]]
             return node
 
-        if len(features) == 0: # if there are no more features to split on
+        if not features: # if there are no more features to split on
             node.value = self.target[values[0]] # set the value to the most common target value
             return node
         
         best_feature = self._best_feature(values, features) # find the best feature to split on
         node.value = best_feature # set the value to the best feature
 
-        unique_values = list(set(self.x[i][best_feature] for i in values)) # get the unique values of the best feature, for Outlook we have ['Sunny', 'Overcast', 'Rain']
+        unique_values = list(set(self.x[best_feature])) # get the unique values of the best feature, for Outlook we have ['Sunny', 'Overcast', 'Rain']
         
         for value in unique_values:
             # Get indices where feature has this value
@@ -156,12 +156,11 @@ class DecisionTree:
             child.value = value
             node.children.append(child)
 
-            value_indices = [values[i] for i in range(len(self.x)) if self.x[i][best_feature] == value] # A list of indices where the feature value (For example, Outlook) 
-                                                                                                        # is the same as the value (For example, Sunny), eg [0, 3, 4, 7...]
+            value_indices = [i for i in values if self.x.loc[i, best_feature] == value] # A list of indices where the feature value (For example, Outlook) is the same as the value (For example, Sunny), eg [0, 3, 4, 7...]
 
             if value_indices:
                 if features and best_feature in features:
-                    new_features = features.remove(best_feature) # remove the best feature from the list of features
+                    new_features = [f for f in features if f != best_feature] # remove the best feature from the list of features
 
                 child.next = self._build_tree(value_indices, new_features, child) # recursively build the tree for this subset
             
