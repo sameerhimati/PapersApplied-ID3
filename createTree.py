@@ -175,15 +175,16 @@ class DecisionTree:
 
     def fit(self):
         self.node = self._build_tree(list(range(len(self.x))), self.features, None)
-        print('Done')
-    
 
     def print_tree(self, node=None, indent=""):
         if node is None:
             node = self.node
             
         # Print current node
-        print(indent + str(node.value))
+        if node.value in ['Yes', 'No']:  # If it's a prediction
+            print(indent + "=> " + str(node.value))  # Use => to mark predictions
+        else:
+            print(indent + str(node.value))
         
         # Print all children
         for child in node.children:
