@@ -18,4 +18,20 @@ class DecisionTree:
         self.entropy = self._entropy([])
 
     def _entropy(self, values):
+        """
+        Calculates the entropy of the given values.
+
+        Entropy is a measure of the amount of uncertainty or randomness in a set of values.
+        The entropy of a set of values is calculated as the negative sum of the probability
+        of each value multiplied by the logarithm of the probability of the value.
+
+        Parameters
+        ----------
+        values : list of str
+            The list of values to calculate the entropy of.
+
+        Returns
+        -------
+        float
+        """
         pass
