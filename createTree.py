@@ -1,4 +1,4 @@
-import math
+import math, collections
 
 
 class Node:
@@ -87,3 +87,108 @@ class DecisionTree:
         info_gain = total_entropy - sum(feature_entropy)
 
         return info_gain
+    
+    def _best_feature(self, values, features):
+        """
+        Finds the best feature to split on based on information gain.
+
+        Parameters
+        ----------
+        values : list of ids
+            The list of values to calculate the information gain of.
+        
+        features : list of column Names
+
+        Returns
+        -------
+        str
+        """
+        best_feature = None
+        best_info_gain = -1
+
+        for feature in features:
+            info_gain = self._information_gain(values, feature)
+            if info_gain > best_info_gain:
+                best_info_gain = info_gain
+                best_feature = feature
+
+        return best_feature
+    
+
+    def _build_tree(self, values, features, node):
+        """
+        Builds the decision tree recursively.
+
+        Parameters
+        ----------
+        values : list of ids
+            The list of values to calculate the information gain of.
+        
+        features : list of column Names
+            The list of features to split on.
+
+        node : Node
+            The current node in the decision tree.
+
+        Returns
+        -------
+        Node
+        """
+        if not node:
+            node = Node()
+        
+        if len(set(self.target[i] for i in values)) == 1: # if all values are the same
+            node.value = self.target[values[0]]
+            return node
+
+        if len(features) == 0: # if there are no more features to split on
+            node.value = self.target[values[0]] # set the value to the most common target value
+            return node
+        
+        best_feature = self._best_feature(values, features) # find the best feature to split on
+        node.value = best_feature # set the value to the best feature
+
+        unique_values = list(set(self.x[i][best_feature] for i in values)) # get the unique values of the best feature, for Outlook we have ['Sunny', 'Overcast', 'Rain']
+        
+        for value in unique_values:
+            # Get indices where feature has this value
+            child = Node()
+            child.value = value
+            node.children.append(child)
+
+            value_indices = [values[i] for i in range(len(self.x)) if self.x[i][best_feature] == value] # A list of indices where the feature value (For example, Outlook) 
+                                                                                                        # is the same as the value (For example, Sunny), eg [0, 3, 4, 7...]
+
+            if value_indices:
+                if features and best_feature in features:
+                    new_features = features.remove(best_feature) # remove the best feature from the list of features
+
+                child.next = self._build_tree(value_indices, new_features, child) # recursively build the tree for this subset
+            
+            else:
+                child.next = Node()
+                child.next.value = self.target[values[0]] # set the value to the most common target value
+                print('Done')
+
+        return node
+
+    def fit(self):
+        self.node = self._build_tree(list(range(len(self.x))), self.features, None)
+        print('Done')
+    
+
+    def print_tree(self):
+        if not self.node:
+            return
+        
+        queue = collections.deque([self.node])
+        while queue:
+            node = queue.popleft()
+            print(node.value)
+            if node.children:
+                for child in node.children:
+                    print('->', child.value)
+                    queue.append(child.next)
+
+            elif node.next:
+                print('->', node.next.value)
