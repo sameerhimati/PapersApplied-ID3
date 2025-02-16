@@ -1,0 +1,125 @@
+Outlook
+├── Sunny
+│   Temperature
+│   ├── Cool
+│   │   Wind
+│   │   ├── Weak
+│   │   │   Humidity
+│   │   │   ├── High
+│   │   │   │   => No
+│   │   │   ├── Normal
+│   │   │   │   => No
+│   │   ├── Strong
+│   │   │   Humidity
+│   │   │   ├── High
+│   │   │   │   => Yes
+│   │   │   ├── Normal
+│   │   │   │   => No
+│   ├── Mild
+│   │   Wind
+│   │   ├── Weak
+│   │   │   Humidity
+│   │   │   ├── High
+│   │   │   │   => Yes
+│   │   │   ├── Normal
+│   │   │   │   => Yes
+│   │   ├── Strong
+│   │   │   Humidity
+│   │   │   ├── High
+│   │   │   │   => Yes
+│   │   │   ├── Normal
+│   │   │   │   => No
+│   ├── Hot
+│   │   Humidity
+│   │   ├── High
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => No
+│   │   │   ├── Strong
+│   │   │   │   => No
+│   │   ├── Normal
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => Yes
+│   │   │   ├── Strong
+│   │   │   │   => Yes
+├── Rain
+│   Humidity
+│   ├── High
+│   │   Temperature
+│   │   ├── Cool
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => No
+│   │   │   ├── Strong
+│   │   │   │   => No
+│   │   ├── Mild
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => No
+│   │   │   ├── Strong
+│   │   │   │   => Yes
+│   │   ├── Hot
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => Yes
+│   │   │   ├── Strong
+│   │   │   │   => No
+│   ├── Normal
+│   │   Temperature
+│   │   ├── Cool
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => No
+│   │   │   ├── Strong
+│   │   │   │   => No
+│   │   ├── Mild
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => Yes
+│   │   │   ├── Strong
+│   │   │   │   => Yes
+│   │   ├── Hot
+│   │   │   Wind
+│   │   │   ├── Weak
+│   │   │   │   => No
+│   │   │   ├── Strong
+│   │   │   │   => Yes
+├── Overcast
+│   Wind
+│   ├── Weak
+│   │   Humidity
+│   │   ├── High
+│   │   │   Temperature
+│   │   │   ├── Cool
+│   │   │   │   => Yes
+│   │   │   ├── Mild
+│   │   │   │   => Yes
+│   │   │   ├── Hot
+│   │   │   │   => Yes
+│   │   ├── Normal
+│   │   │   Temperature
+│   │   │   ├── Cool
+│   │   │   │   => Yes
+│   │   │   ├── Mild
+│   │   │   │   => Yes
+│   │   │   ├── Hot
+│   │   │   │   => Yes
+│   ├── Strong
+│   │   Humidity
+│   │   ├── High
+│   │   │   Temperature
+│   │   │   ├── Cool
+│   │   │   │   => No
+│   │   │   ├── Mild
+│   │   │   │   => No
+│   │   │   ├── Hot
+│   │   │   │   => Yes
+│   │   ├── Normal
+│   │   │   Temperature
+│   │   │   ├── Cool
+│   │   │   │   => No
+│   │   │   ├── Mild
+│   │   │   │   => Yes
+│   │   │   ├── Hot
+│   │   │   │   => Yes

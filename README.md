@@ -5,3 +5,8 @@ Also more info about my thoughts can be found on my blog [here](https://himati.b
 
 
 Data used can be found [here](https://www.kaggle.com/datasets/sameerhimati/id3-dataset).
+
+
+The Decision Trees based on the algorithm are found here for the [clean](cleanTree.txt) and [noisy](noisyTree.txt) datasets. 
+
+![Clean Tree Image](cleanImage.png)

@@ -1,0 +1,15 @@
+Outlook
+├── Rain
+│   Wind
+│   ├── Strong
+│   │   => No
+│   ├── Weak
+│   │   => Yes
+├── Overcast
+│   => Yes
+├── Sunny
+│   Humidity
+│   ├── High
+│   │   => No
+│   ├── Normal
+│   │   => Yes
